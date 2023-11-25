@@ -1,8 +1,8 @@
 import networkx as nx
 from typing import List, Tuple
-from ramsey.Common.board import Board
-from ramsey.Common.move import Move
-from ramsey.Common.player import Player
+from Common.board import Board
+from Common.move import Move
+from Common.player import Player
 
 """
 A GameState which holds the board and metadata surrounding the game

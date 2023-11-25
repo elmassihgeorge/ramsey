@@ -3,9 +3,9 @@ file_dir = os.path.dirname('ramsey')
 sys.path.append(file_dir)
 
 import random
-from ramsey.Agent.base import Agent
-from ramsey.Common.game_state import GameState
-from ramsey.Common.move import Move
+from Agent.base import Agent
+from Common.game_state import GameState
+from Common.move import Move
 
 """
 An agent which selects a random black edge to color
