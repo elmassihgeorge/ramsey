@@ -4,10 +4,10 @@ sys.path.append(file_dir)
 
 from matplotlib import pyplot as plt
 import networkx as nx
-from ramsey.Common.view import View
-from ramsey.Common.move import Move
-from ramsey.Common.player import Player
-from ramsey.Common.board import Board
+from Common.view import View
+from Common.move import Move
+from Common.player import Player
+from Common.board import Board
 
 def test_coloring():
     board = Board(5)

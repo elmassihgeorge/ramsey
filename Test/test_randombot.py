@@ -9,8 +9,8 @@ from Agent.random_bot import RandomBot
 
 def main():
 
-    order = 25
-    clique_orders = (4, 5)
+    order = 6
+    clique_orders = (3, 3)
     game = GameState.new_game(order, clique_orders)
 
     bots = {

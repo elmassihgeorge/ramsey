@@ -6,8 +6,8 @@ import time
 import networkx as nx
 from matplotlib import pyplot as plt
 from copy import deepcopy
-from ramsey.Common.view import View
-from ramsey.Common.board import Board
+from Common.view import View
+from Common.board import Board
 
 def main():
     board = Board(20)
