@@ -12,7 +12,7 @@ class Move:
         self.is_resign = is_resign
 
     @classmethod
-    def play(cld, edge, color):
+    def play(cls, edge, color):
         return Move(edge=edge, color=color)
     
     @classmethod
