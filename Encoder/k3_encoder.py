@@ -16,7 +16,7 @@ class K3Encoder(Encoder):
         self.order = order
         self.num_planes = 5
 
-    def name():
+    def name(self):
         return 'k3_encoder'
     
     def encode(self, game_state : GameState):

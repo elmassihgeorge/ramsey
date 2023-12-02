@@ -1,9 +1,7 @@
 from Common.game_state import GameState
 from Encoder.base import Encoder
-from typing import Tuple
 import numpy as np
 import networkx
-
 
 """ Encoder implementation to convert a game state into an np.array adjacency matrix
 Plane 0: Black edges

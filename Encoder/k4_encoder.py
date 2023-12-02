@@ -2,6 +2,7 @@ from Common.game_state import GameState
 from Encoder.base import Encoder
 import numpy as np
 import networkx
+
 """
 Encoder that includes information about 3 and 4 cliques:
 Plane 0: Black edges
@@ -17,7 +18,7 @@ class K4Encoder(Encoder):
         self.order = order
         self.num_planes = 7
 
-    def name():
+    def name(self):
         return 'k4_encoder'
     
     def encode(self, game_state : GameState):

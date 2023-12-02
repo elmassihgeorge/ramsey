@@ -13,8 +13,8 @@ def random_game():
     Two random bot opponents attempt to color a K_5 graph
     without forming red or blue triangles
     """
-    ORDER = 43
-    CLIQUE_ORDERS = (5, 5)
+    ORDER = 50
+    CLIQUE_ORDERS = (40, 40)
     tic = time.time()
     game = GameState.new_game(ORDER, CLIQUE_ORDERS)
     bots = {

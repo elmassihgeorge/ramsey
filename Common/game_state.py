@@ -53,4 +53,13 @@ class GameState:
             return True
         return self.board.get_monochromatic_clique_number("red") >= self.s or self.board.get_monochromatic_clique_number("blue") >= self.t
 
-
+    def is_valid_move(self, move: Move) -> bool:
+        """
+        TODO: Can a move be applied?
+        i.e., is the edge black?
+        """
+        if move.is_pass or move.is_resign:
+            return True
+        else:
+            return move.edge in self.board.black_edges()
+        
