@@ -2,11 +2,7 @@ import sys, os
 file_dir = os.path.dirname('ramsey')
 sys.path.append(file_dir)
 
-from matplotlib import pyplot as plt
-import networkx as nx
 from Common.view import View
-from Common.move import Move
-from Common.player import Player
 from Common.board import Board
 
 def test_coloring():

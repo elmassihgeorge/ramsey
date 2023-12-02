@@ -1,5 +1,4 @@
-import networkx as nx
-from typing import List, Tuple
+from typing import Tuple
 from Common.board import Board
 from Common.move import Move
 from Common.player import Player
@@ -26,7 +25,7 @@ class GameState:
         """
         Creates a new game with a specific complete graph of order k and clique orders s, t
         """
-        return GameState(board = Board(order),
+        return GameState(board = Board(order=order),
                          clique_orders=clique_orders)
     
     def apply_move(self, move : Move) -> "GameState":

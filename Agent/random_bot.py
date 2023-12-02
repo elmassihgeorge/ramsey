@@ -1,7 +1,3 @@
-import sys, os
-file_dir = os.path.dirname('ramsey')
-sys.path.append(file_dir)
-
 import random
 from Agent.base import Agent
 from Common.game_state import GameState
@@ -18,5 +14,8 @@ class RandomBot(Agent):
         """
         player_color = game_state.active.name
         black_edges = game_state.board.black_edges()
-        return Move.play(random.choice(black_edges), player_color)
+        if black_edges:
+            return Move.play(random.choice(black_edges), player_color)
+        else:
+            return Move.resign()
     

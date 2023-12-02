@@ -3,14 +3,12 @@ file_dir = os.path.dirname('ramsey')
 sys.path.append(file_dir)
 
 import time
-import networkx as nx
-from matplotlib import pyplot as plt
 from copy import deepcopy
 from Common.view import View
 from Common.board import Board
 
 def main():
-    board = Board(20)
+    board = Board(100)
     board.color_edge((0, 1), 'blue')
     deepcopy_board(board)
     nxcopy_board(board)

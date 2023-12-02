@@ -1,8 +1,8 @@
 import sys, os
-import time
 file_dir = os.path.dirname('ramsey')
 sys.path.append(file_dir)
 
+import time
 from Common.view import View
 from Common.game_state import GameState
 from Common.player import Player
@@ -13,8 +13,10 @@ def random_game():
     Two random bot opponents attempt to color a K_5 graph
     without forming red or blue triangles
     """
+    ORDER = 43
+    CLIQUE_ORDERS = (5, 5)
     tic = time.time()
-    game = GameState.new_game(50, (20, 20))
+    game = GameState.new_game(ORDER, CLIQUE_ORDERS)
     bots = {
         Player.red: RandomBot(),
         Player.blue: RandomBot()
