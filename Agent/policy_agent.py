@@ -6,12 +6,15 @@ from keras import Model
 import numpy as np
 from h5py import File
 from Common.util import Util
+from Encoder.k3_encoder import K3Encoder
 from Encoder.k4_encoder import K4Encoder
+from Experience.base import ExperienceCollector
 
 class PolicyAgent(Agent):
     def __init__(self, model: Model, encoder: Encoder):
         self.model = model
         self.encoder = encoder
+        self.collector = None
 
     def select_move(self, game_state: GameState):
         board_tensor = self.encoder.encode(game_state)
@@ -24,11 +27,15 @@ class PolicyAgent(Agent):
             candidates, num_edges,
             replace=False, p=move_probs
         )
-        print(ranked_edges)
         for edge_idx in ranked_edges:
             edge = self.encoder.decode_edge_index(edge_idx)
             move = Move.play(edge, game_state.active.name)
             if game_state.is_valid_move(move):
+                if self.collector is not None:
+                    self.collector.record_decision(
+                        state=board_tensor,
+                        action=edge_idx
+                    )
                 return move
         return Move.pass_turn()
     
@@ -50,9 +57,9 @@ class PolicyAgent(Agent):
         model = Util.load_model_from_hdf5_group(h5file['model'])
         encoder_name = h5file['encoder'].attrs['name']
         order = h5file['encoder'].attrs['order']
-        # TODO: Implement dynamic encoder getting - for now its always k4
+        # TODO: Implement dynamic encoder getting - for now its always k3
         # encoder = Encoder.get_encoder_by_name(encoder_name, order)
-        encoder = K4Encoder(order)
+        encoder = K3Encoder(order)
         return PolicyAgent(model, encoder)
     
     def clip_probs(self, probs):
@@ -64,5 +71,11 @@ class PolicyAgent(Agent):
         clipped_probs = np.clip(probs, min_p, max_p)
         clipped_probs = clipped_probs / np.sum(clipped_probs)
         return clipped_probs
+    
+    def set_collector(self, collector: ExperienceCollector):
+        self.collector = collector
+
+    
+    
 
 

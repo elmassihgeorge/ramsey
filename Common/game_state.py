@@ -1,4 +1,4 @@
-from typing import Tuple
+from typing import Tuple, List
 from Common.board import Board
 from Common.move import Move
 from Common.player import Player
@@ -62,4 +62,14 @@ class GameState:
             return True
         else:
             return move.edge in self.board.black_edges()
+        
+    def winners(self) -> List[Player]:
+        winners = []
+        if len(self.board.black_edges()) == 0:
+            if self.board.get_monochromatic_clique_number("red") < self.s:
+                winners.append(Player.red)
+            if self.board.get_monochromatic_clique_number("blue") < self.t:
+                winners.append(Player.blue)
+        return winners
+
         

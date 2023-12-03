@@ -16,7 +16,7 @@ def main():
     ORDER = 5
     NUM_EDGES = ORDER ** 2
     CLIQUE_ORDERS = (3, 3)
-    encoder = K4Encoder(ORDER)
+    encoder = K3Encoder(ORDER)
     model = Sequential()
     model.add(InputLayer(input_shape=encoder.shape()))
     model.add(Dense(encoder.num_planes*NUM_EDGES**2, activation='relu'))
@@ -25,15 +25,14 @@ def main():
     model.add(Dense(NUM_EDGES**2, activation='relu'))
     model.add(Dropout(rate=0.5))
     model.add(Dense(NUM_EDGES, activation='softmax'))
-    model.summary()
     policy_agent = PolicyAgent(model, encoder)
 
     # Serialize policy agent to an h5 file:
-    with h5py.File("my_first_model", 'w') as outf:
+    with h5py.File("my_second_model", 'w') as outf:
         policy_agent.serialize(outf)
 
     # Reconstruct a policy agent:
-    my_new_agent = PolicyAgent.load_policy_agent(h5py.File('my_first_model'))
+    my_new_agent = PolicyAgent.load_policy_agent(h5py.File('my_second_model'))
 
     # Produce a move from this new agent:
     game_state = GameState(Board(ORDER), CLIQUE_ORDERS)
