@@ -3,10 +3,10 @@ from Agent.base import Agent
 from Common.game_state import GameState
 from Common.move import Move
 
-"""
-An agent which selects a random black edge to color
-"""
 class RandomBot(Agent):
+    """
+    An agent which selects a random black edge to color
+    """
     def select_move(self, game_state : GameState) -> Move:
         """
         Choose a random black edge to color

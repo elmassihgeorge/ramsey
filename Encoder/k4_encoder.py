@@ -3,17 +3,16 @@ from Encoder.base import Encoder
 import numpy as np
 import networkx
 
-"""
-Encoder that includes information about 3 and 4 cliques:
-Plane 0: Black edges
-Plane 1: Red edges
-Plane 2: Blue edges
-Plane 3: Red 3-cliques
-Plane 4: Blue 3-cliques
-Plane 5: Red 4-cliques
-Plane 6: Blue 4-cliques
-"""
 class K4Encoder(Encoder):
+    """ Encoder that includes information about 3 and 4 cliques:
+        Plane 0: Black edges
+        Plane 1: Red edges
+        Plane 2: Blue edges
+        Plane 3: Red 3-cliques
+        Plane 4: Blue 3-cliques
+        Plane 5: Red 4-cliques
+        Plane 6: Blue 4-cliques
+    """
     def __init__(self, order : int):
         self.order = order
         self.num_planes = 7

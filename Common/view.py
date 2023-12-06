@@ -1,10 +1,10 @@
 from matplotlib import pyplot as plt
 import networkx as nx
 
-"""
-GUI for boards that display them with PyPlot
-"""
 class View():
+    """
+    GUI for boards that display them with PyPlot
+    """
     def __init__(self, board):
         self.board = board
 

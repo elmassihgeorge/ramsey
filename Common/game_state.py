@@ -3,10 +3,10 @@ from Common.board import Board
 from Common.move import Move
 from Common.player import Player
 
-"""
-A GameState which holds the board and metadata surrounding the game
-"""
 class GameState:
+    """
+    A GameState which holds the board and metadata surrounding the game
+    """
     def __init__(self, board : Board,
                 clique_orders : Tuple[int, int],
                 player : Player = Player.red,
@@ -21,12 +21,13 @@ class GameState:
         self.t = self.clique_orders[1]
 
     @classmethod
-    def new_game(cls, order : int, clique_orders : Tuple[int, int]) -> "GameState":
+    def new_game(cls, order : int = 5, clique_orders : Tuple[int, int] = (3, 3), player = Player.red) -> "GameState":
         """
         Creates a new game with a specific complete graph of order k and clique orders s, t
         """
         return GameState(board = Board(order=order),
-                         clique_orders=clique_orders)
+                         clique_orders=clique_orders,
+                         player=player)
     
     def apply_move(self, move : Move) -> "GameState":
         """
@@ -55,21 +56,24 @@ class GameState:
 
     def is_valid_move(self, move: Move) -> bool:
         """
-        TODO: Can a move be applied?
-        i.e., is the edge black?
+        Can a move be applied to the board?
         """
         if move.is_pass or move.is_resign:
             return True
         else:
             return move.edge in self.board.black_edges()
         
-    def winners(self) -> List[Player]:
+    def win(self) -> List[Player]:
+        """
+        The list of winning players (or empty)
+        """
         winners = []
+        red_clique_n = self.board.get_monochromatic_clique_number("red")
+        blue_clique_n = self.board.get_monochromatic_clique_number("blue") 
         if len(self.board.black_edges()) == 0:
-            if self.board.get_monochromatic_clique_number("red") < self.s:
+            if red_clique_n < self.s:
                 winners.append(Player.red)
-            if self.board.get_monochromatic_clique_number("blue") < self.t:
+            if blue_clique_n < self.t:
                 winners.append(Player.blue)
         return winners
-
         

@@ -1,8 +1,8 @@
-"""
-A move that a player may make to color the board.
-A player may pass their turn, resign, or play by coloring an edge.
-"""
 class Move:
+    """
+    Data representation for a player's move on the board.
+    A player may pass their turn, resign, or color an edge
+    """
     def __init__(self, edge=None, color=None, is_pass=False, is_resign=False):
         assert (edge is not None) ^ is_pass ^ is_resign
         self.edge = edge

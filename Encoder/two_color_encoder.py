@@ -3,12 +3,12 @@ from Encoder.base import Encoder
 import numpy as np
 import networkx
 
-""" Encoder implementation to convert a game state into an np.array adjacency matrix
-Plane 0: Black edges
-Plane 1: Red edges
-Plane 2: Blue edges
-"""
 class TwoColorEncoder(Encoder):
+    """ Encoder implementation to convert a game state into an np.array adjacency matrix
+        Plane 0: Black edges
+        Plane 1: Red edges
+        Plane 2: Blue edges
+    """
     def __init__(self, order : int):
         self.order = order
         self.num_planes = 3

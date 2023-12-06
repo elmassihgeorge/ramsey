@@ -9,43 +9,40 @@ from Agent.base import Agent
 from Common.player import Player
 from Common.util import Util
 from Experience.base import ExperienceBuffer, ExperienceCollector
-import Experience
-
-from Common.view import View
 from Agent.policy_agent import PolicyAgent
 from h5py import File
-from typing import Tuple
+from typing import Tuple, List
 import numpy as np
 
 def main():
-    agent1 = PolicyAgent.load_policy_agent(File('my_first_model'))
-    agent2 = PolicyAgent.load_policy_agent(File('my_second_model'))
-    collector1 = ExperienceCollector()
-    collector2 = ExperienceCollector()
-    agent1.set_collector(collector1)
-    agent2.set_collector(collector2)
-
-    num_games = 1
+    red_agent = PolicyAgent.load_policy_agent(File('trained_12_4_23_model_1000'))
+    blue_agent = PolicyAgent.load_policy_agent(File('trained_12_4_23_model_1000'))
+    red_collector = ExperienceCollector()
+    blue_collector = ExperienceCollector()
+    red_agent.set_collector(red_collector)
+    blue_agent.set_collector(blue_collector)
+ 
+    num_games = 10000
     for i in range(num_games):
-        collector1.begin_episode()
-        collector2.begin_episode()
-        winners = simulate_game(agent1, agent2, 5, (3, 3))
-        print("Winner:", i, winners)
-        if len(winners) == 0:
-            collector1.complete_episode(reward=-1)
-            collector2.complete_episode(reward=-1)
+        print('Simulating game %d/%d...' % (i + 1, num_games))
+        red_collector.begin_episode()
+        blue_collector.begin_episode()
+        winners = simulate_game(red_agent, blue_agent, 5, (3, 3))
         if Player.red in winners:
-            collector1.complete_episode(reward=1)
-            collector2.complete_episode(reward=-1)
+            red_collector.complete_episode(reward=1)
+        else:
+            red_collector.complete_episode(reward=-1)
         if Player.blue in winners:
-            collector1.complete_episode(reward=-1)
-            collector2.complete_episode(reward=1)
+            blue_collector.complete_episode(reward=1)
+        else:
+            blue_collector.complete_episode(reward=-1)
+        print(f"Game {i} Winners: {winners}")
 
-    experience = combine_experience([collector1, collector2])
-    with File('my_second_experience', 'w') as experience_outf:
+    experience = combine_experience([red_collector, blue_collector])
+    with File('experience_12_4_2023_100000', 'w') as experience_outf:
         experience.serialize(experience_outf)
 
-def simulate_game(agent_1: "Agent", agent_2: "Agent", order: int, clique_orders: Tuple[int, int]):
+def simulate_game(agent_1: "Agent", agent_2: "Agent", order: int, clique_orders: Tuple[int, int]) -> List:
         game = GameState.new_game(order, clique_orders)
         agents = {
             Player.red: agent_1,
@@ -53,10 +50,8 @@ def simulate_game(agent_1: "Agent", agent_2: "Agent", order: int, clique_orders:
         }
         while not game.is_over():
             next_move = agents[game.active].select_move(game)
-            print("Move:", next_move)
             game = game.apply_move(next_move)
-        View(game.board).render()
-        return game.winners()
+        return game.win()
 
 def combine_experience(collectors):
     combined_states = np.concatenate([np.array(c.states) for c in collectors])

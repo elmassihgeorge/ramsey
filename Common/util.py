@@ -1,12 +1,13 @@
 from __future__ import absolute_import
+from keras.models import load_model, save_model
 import tempfile
 import os
-
 import h5py
-import keras
-from keras.models import load_model, save_model
 
 class Util:
+    """
+    Utility module
+    """
     @classmethod
     def save_model_to_hdf5_group(cls, model, f):
         # Use Keras save_model to save the full model (including optimizer

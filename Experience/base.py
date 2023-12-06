@@ -13,7 +13,8 @@ class ExperienceBuffer:
         h5file['experience'].create_dataset('actions', data=self.actions)
         h5file['experience'].create_dataset('rewards', data=self.rewards)
 
-    def load_experience(h5file: File):
+    @classmethod
+    def load_experience(cls, h5file: File):
         return ExperienceBuffer(
             states=np.array(h5file['experience']['states']),
             actions=np.array(h5file['experience']['actions']),

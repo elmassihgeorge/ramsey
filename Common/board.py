@@ -1,10 +1,10 @@
 from typing import List, Tuple
 import networkx as nx
 
-"""
-Represents that graph that the players take turn "coloring"
-"""
 class Board:
+    """
+    Represents that graph that the players take turn "coloring"
+    """
     def __init__(self, order : int = 5, graph : nx.Graph = None):
         assert order >= 0 or graph
         self.order = order if order else graph.order()

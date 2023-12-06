@@ -1,9 +1,9 @@
 from enum import Enum
 
-"""
-A data representation for a player
-"""
 class Player(Enum):
+    """
+    Data representation for a player
+    """
     red = 1
     blue = 2
 
