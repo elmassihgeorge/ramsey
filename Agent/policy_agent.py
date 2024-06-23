@@ -9,7 +9,7 @@ from Common.util import Util
 from Encoder.k3_encoder import K3Encoder
 from Encoder.k4_encoder import K4Encoder
 from Experience.base import ExperienceCollector
-from keras.optimizers import legacy
+from keras.api.optimizers import SGD
 
 class PolicyAgent(Agent):
     """
@@ -53,7 +53,7 @@ class PolicyAgent(Agent):
         """
         self.model.compile(
             loss='categorical_crossentropy',
-            optimizer=legacy.SGD(lr=lr, clipnorm=clipnorm)
+            optimizer=SGD(learning_rate=lr, clipnorm=clipnorm)
         )
 
         target_vectors = self.prepare_experience_data(

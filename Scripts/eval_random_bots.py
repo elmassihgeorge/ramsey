@@ -9,7 +9,7 @@ from Common.player import Player
 from Agent.random_bot import RandomBot
 from typing import Tuple
 import Agent
-from Test.eval_agent import GameRecord
+from Scripts.eval_agent import GameRecord
 
 def random_game():
     """
@@ -20,10 +20,10 @@ def random_game():
     CLIQUE_ORDERS = (3, 3)
     wins = 0
     losses = 0
-    num_games = 1000
+    num_games = 10000
     for i in range(num_games):
         game_record = simulate_game(RandomBot(), RandomBot(), ORDER, CLIQUE_ORDERS)
-        if game_record.win:
+        if game_record.win.contains(Player.red):
             wins += 1
         else:
             losses +=1

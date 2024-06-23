@@ -16,8 +16,9 @@ class Util:
         tempfd, tempfname = tempfile.mkstemp(prefix='tmp-kerasmodel')
         try:
             os.close(tempfd)
-            save_model(model, tempfname, overwrite=True, save_format='h5')
-            serialized_model = h5py.File(tempfname, 'r')
+            print(tempfname)
+            save_model(model, tempfname + '.h5' , overwrite=True)
+            serialized_model = h5py.File(tempfname + '.h5', 'r')
             root_item = serialized_model.get('/')
             serialized_model.copy(root_item, f, 'kerasmodel')
             serialized_model.close()
@@ -29,6 +30,7 @@ class Util:
         # Extract the model into a temporary file. Then we can use Keras
         # load_model to read it.
         tempfd, tempfname = tempfile.mkstemp(prefix='tmp-kerasmodel')
+        tempfname += '.h5'
         try:
             os.close(tempfd)
             serialized_model = h5py.File(tempfname, 'w')

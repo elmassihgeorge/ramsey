@@ -1,5 +1,6 @@
 from collections import namedtuple
 import sys, os
+
 file_dir = os.path.dirname('ramsey')
 sys.path.append(file_dir)
 from Agent.random_bot import RandomBot
@@ -13,14 +14,14 @@ from h5py import File
 from typing import Tuple
 import numpy as np
 
+
 class GameRecord(namedtuple('GameRecord', 'moves win')):
     pass
 
+
 def main():
-    red_agent = RandomBot()
-    blue_agent = RandomBot()
-    # red_agent = PolicyAgent.load_policy_agent(File('trained_12_4_23_model_100'))
-    # blue_agent = PolicyAgent.load_policy_agent(File('trained_12_4_23_model_100'))
+    red_agent = PolicyAgent.load_policy_agent(File('trained_model_1000'))
+    blue_agent = PolicyAgent.load_policy_agent(File('trained_model_1000'))
     red_wins = 0
     red_losses = 0
     blue_wins = 0
@@ -39,10 +40,11 @@ def main():
         if Player.blue in game_record.win:
             blue_wins += 1
         else:
-            blue_losses +=1
+            blue_losses += 1
         color1 = color1.other
     print('Red Agent Record: %d/%d' % (red_wins, red_wins + red_losses))
     print('Blue Agent Record: %d/%d' % (blue_wins, blue_wins + blue_losses))
+
 
 def simulate_game(agent_1: "Agent", agent_2: "Agent", order: int, clique_orders: Tuple[int, int]):
     game = GameState.new_game(order, clique_orders)
@@ -56,6 +58,7 @@ def simulate_game(agent_1: "Agent", agent_2: "Agent", order: int, clique_orders:
         moves.append(next_move)
         game = game.apply_move(next_move)
     return GameRecord(moves=moves, win=game.win())
+
 
 if __name__ == "__main__":
     main()

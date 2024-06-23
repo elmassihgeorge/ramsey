@@ -1,6 +1,5 @@
 import sys, os
-
-
+from datetime import datetime
 
 file_dir = os.path.dirname('ramsey')
 sys.path.append(file_dir)
@@ -15,13 +14,13 @@ from typing import Tuple, List
 import numpy as np
 
 def main():
-    red_agent = PolicyAgent.load_policy_agent(File('trained_12_4_23_model_1000'))
-    blue_agent = PolicyAgent.load_policy_agent(File('trained_12_4_23_model_1000'))
+    red_agent = PolicyAgent.load_policy_agent(File('model_12:37:46.667155'))
+    blue_agent = PolicyAgent.load_policy_agent(File('model_12:37:46.667155'))
     red_collector = ExperienceCollector()
     blue_collector = ExperienceCollector()
     red_agent.set_collector(red_collector)
     blue_agent.set_collector(blue_collector)
- 
+
     num_games = 10000
     for i in range(num_games):
         print('Simulating game %d/%d...' % (i + 1, num_games))
@@ -39,7 +38,8 @@ def main():
         print(f"Game {i} Winners: {winners}")
 
     experience = combine_experience([red_collector, blue_collector])
-    with File('experience_12_4_2023_100000', 'w') as experience_outf:
+    filename = 'experience_' + datetime.now().time().__str__() + '_' + num_games.__str__()
+    with File(filename, 'w') as experience_outf:
         experience.serialize(experience_outf)
 
 def simulate_game(agent_1: "Agent", agent_2: "Agent", order: int, clique_orders: Tuple[int, int]) -> List:
