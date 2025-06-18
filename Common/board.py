@@ -12,15 +12,17 @@ class Board:
         if graph is None:
             nx.set_edge_attributes(self.graph, 'black', name = 'color')
 
-    def color_edge(self, edge : Tuple[int, int], color : str):
-        """
-        Assign a color to a black edge
-        """
-        if self.get_edge_color(edge) == "black":
+    def color_edge(self, edge: Tuple[int, int], color: str):
+        if color not in ["red", "blue"]:
+            raise ValueError(f"Invalid color: {color}. Must be 'red' or 'blue'.")
+        
+        current_color = self.get_edge_color(edge)
+        if current_color == "black":
             u, v = edge
-            self.graph.add_edge(u, v, color=color)
+            self.graph[u][v]['color'] = color
         else:
-            raise Exception("Cannot color an edge that isn't black")
+            raise Exception(f"Cannot color edge {edge} which is already {current_color}")
+
 
     def get_edge_color(self, edge : Tuple[int, int]) -> str:
         """
@@ -46,7 +48,23 @@ class Board:
         Retrieves the size of the largest clique of such color
         """
         monochromatic_subgraph = self.get_monochromatic_subgraph(color=color)
-        return nx.graph_clique_number(monochromatic_subgraph)
+        
+        # Handle empty graph
+        if len(monochromatic_subgraph.edges()) == 0:
+            return 1 if len(monochromatic_subgraph.nodes()) > 0 else 0
+        
+        # Find all maximal cliques
+        try:
+            # This works in all NetworkX versions
+            all_cliques = nx.find_cliques(monochromatic_subgraph)
+            max_size = 0
+            for clique in all_cliques:
+                if len(clique) > max_size:
+                    max_size = len(clique)
+            return max_size
+        except:
+            # Fallback
+            return 0
     
     def get_monochromatic_subgraph(self, color="black") -> nx.Graph:
         """

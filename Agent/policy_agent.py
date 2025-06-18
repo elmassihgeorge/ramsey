@@ -9,7 +9,7 @@ from Common.util import Util
 from Encoder.k3_encoder import K3Encoder
 from Encoder.k4_encoder import K4Encoder
 from Experience.base import ExperienceCollector
-from keras.api.optimizers import SGD
+from keras.optimizers import SGD
 
 class PolicyAgent(Agent):
     """
